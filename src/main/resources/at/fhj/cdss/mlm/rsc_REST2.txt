@@ -1,0 +1,43 @@
+{
+    "type": "list",
+    "primaryTime": null,
+    "applicability": 1,
+    "values": [
+        {
+            "type": "number",
+            "primaryTime": null,
+            "applicability": 1,
+            "value": 37
+        },
+        {
+            "type": "number",
+            "primaryTime": null,
+            "applicability": 1,
+            "value": 89
+        },
+        {
+            "type": "number",
+            "primaryTime": null,
+            "applicability": 1,
+            "value": 19
+        },
+        {
+            "type": "number",
+            "primaryTime": null,
+            "applicability": 1,
+            "value": 30
+        },
+        {
+            "type": "number",
+            "primaryTime": null,
+            "applicability": 1,
+            "value": 5000
+        },
+        {
+            "type": "number",
+            "primaryTime": null,
+            "applicability": 1,
+            "value": 9
+        }
+    ]
+}

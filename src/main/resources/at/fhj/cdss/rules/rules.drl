@@ -1,0 +1,101 @@
+package at.fhj.cdss.rules
+
+import arden.runtime.*;
+import at.fhj.cdss.CTDSIRSNotification;
+import at.fhj.cdss.CTD_SIRS_NotificationAM;
+import at.fhj.cdss.CTD_SIRS_NotificationA2B;
+
+/*
+rule "temperatureAbnormalArden2Bytecode"
+	when
+	an : ArdenNumber(value==38	);
+	n2 : CTD_SIRS_NotificationA2B( n2.getTemperature() >= an );
+	
+	//n2 : CTD_SIRS_NotificationA2B( testvar >= 0 )
+	then
+	//n2.setCounter(Double.parseDouble(n2.getCounter().getElements()[0])+1);
+	System.out.println("AAAtemperature: "+n2.getTemperature());
+	//System.out.println("counter +1: "+n2.getCounter().getElements()[0]);
+end
+*/
+
+rule "temperature"
+	when
+	n1 : CTDSIRSNotification( temperature > 38 || temperature < 36 )
+	then
+	n1.setCounter(n1.getCounter()+1);
+	System.out.println(n1.getCounter()+", temperature");
+end
+
+rule "heartRate"
+	when
+	n1 : CTDSIRSNotification( heartRate > 90 )
+	then
+	n1.setCounter(n1.getCounter()+1);
+	System.out.println(n1.getCounter()+", heartRate");
+end
+
+rule "respRateAndPaCo2"
+	when
+	n1 : CTDSIRSNotification( respRate > 20 || paCo2 < 32 )
+	then
+	n1.setCounter(n1.getCounter()+1);
+	System.out.println(n1.getCounter()+", respRateAndPaCo2");
+end
+
+
+rule "wbCellCountAndimmatureBand"
+	when
+	n1 : CTDSIRSNotification( wbCellCount > 12000 || wbCellCount < 4000 || immatureBand > 10 )
+	then 
+	n1.setCounter(n1.getCounter()+1);
+	System.out.println(n1.getCounter()+", wbCellCountAndimmatureBand");
+end	
+	
+rule "sirsNotification"
+	when
+	n1 : CTDSIRSNotification( counter >= 3 )
+	then 
+	System.out.println("Alert for SIRS");
+end
+
+rule "temperatureAbnormalArdenModelAM"
+	when
+	n3 : CTD_SIRS_NotificationAM( n3.getTemperature().value() >= 38 || n3.getTemperature().value() < 36 )
+	then
+	n3.setCounter(n3.getCounter().add(1));
+	System.out.println(n3.getCounter()+", temperatureAbnormalAM");
+end
+
+rule "heartRateAM"
+	when
+	n3 : CTD_SIRS_NotificationAM( n3.getHeartRate().value() > 90 )
+	then
+	n3.setCounter(n3.getCounter().add(1));
+	System.out.println(n3.getCounter()+", heartRateAM");
+end
+
+rule "respRateAndPaCo2AM"
+	when
+	n3 : CTD_SIRS_NotificationAM( n3.getRespRate().value() > 20 || n3.getPaCo2().value() < 32 )
+	then
+	n3.setCounter(n3.getCounter().add(1));
+	System.out.println(n3.getCounter()+", respRateAndPaCo2AM");
+end
+
+
+rule "wbCellCountAndimmatureBandAM"
+	when
+	n3 : CTD_SIRS_NotificationAM( n3.getWbCellCount().value() > 12000 || n3.getWbCellCount.value() < 4000 || n3.getImmatureBand().value() > 10 )
+	then 
+	n3.setCounter(n3.getCounter().add(1));
+	System.out.println(n3.getCounter()+", wbCellCountAndimmatureBandAM");
+end	
+	
+rule "sirsNotificationAM"
+	when
+	n3 : CTD_SIRS_NotificationAM( n3.getCounter().value() >= 3 )
+	then 
+	System.out.println("Alert for SIRS");
+end
+

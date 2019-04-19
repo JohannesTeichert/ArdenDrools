@@ -1,0 +1,68 @@
+maintenance:
+    title:          CTD_SIRS-Notification2;; 
+    mlmname:        CTD_SIRS-Notification2;;
+    arden:          version 2.9;;
+    version:        1.0;;
+    institution:    Medexter Healthcare, Vienna, Austria;;
+    author:         knowledge engineering group;;
+    specialist:     clinical specialists group;;
+    date:           2018-11-20;;
+    validation:     production;;
+library:
+	purpose: correct test MLM;;
+	explanation: 
+	  The MLM generates a notification if two or more criteria for the 
+      systemic inflammatory response syndrome (SIRS) are fulfilled;;
+	keywords: ;;
+	citations: ;;
+	links: ;;
+knowledge:
+	type: data_driven;;
+	data: 
+        (temperature, heartRate, respRate, PaCO2, WBcellCount, immatureBand) := Argument;
+        ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+        // Start - Checking SIRS criteria
+        let counter be 0;
+        
+        if temperature is greater than 38 or temperature is less than 36 then
+            let counter be counter + 1;
+        endif;
+        
+        if heartRate is greater than 90 then
+            let counter be counter + 1;
+        endif;
+        
+        if respRate is greater than 20 or PaCO2 is less than 32 then
+            let counter be counter + 1;
+        endif;
+        
+        if WBcellCount is greater than 12000 or WBcellCount is less than 4000
+        or immatureBand is greater than 10 then
+            let counter be counter + 1;
+        endif;
+        
+        if counter is greater than or equal 2 then
+            let notification be localized 'SIRS';
+            conclude true;
+        endif;
+        // End - Checking SIRS criteria
+        
+        conclude true;
+        ;;
+	action: 
+    	return notification;
+        ;;
+	urgency: ;;
+	
+resources:
+    default: en;;
+    language: en
+       'SIRS': "Alert for SIRS";
+    ;;
+    language: de
+       'SIRS': "Alert für SIRS";
+    ;;
+end:
