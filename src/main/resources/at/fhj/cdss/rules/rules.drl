@@ -6,96 +6,103 @@ import at.fhj.cdss.CTD_SIRS_NotificationAM;
 import at.fhj.cdss.CTD_SIRS_NotificationA2B;
 
 /*
-rule "temperatureAbnormalArden2Bytecode"
+rule "temperatureAbnormalArde$n2Bytecode"
 	when
 	an : ArdenNumber(value==38	);
-	n2 : CTD_SIRS_NotificationA2B( n2.getTemperature() >= an );
+	$n2 : CTD_SIRS_NotificationA2B( $n2.getTemperature() >= an );
 	
-	//n2 : CTD_SIRS_NotificationA2B( testvar >= 0 )
+	//$n2 : CTD_SIRS_NotificationA2B( testvar >= 0 )
 	then
-	//n2.setCounter(Double.parseDouble(n2.getCounter().getElements()[0])+1);
-	System.out.println("AAAtemperature: "+n2.getTemperature());
-	//System.out.println("counter +1: "+n2.getCounter().getElements()[0]);
+	//$n2.setCounter(Double.parseDouble($n2.getCounter().getElements()[0])+1);
+	System.out.println("AAAtemperature: "+$n2.getTemperature());
+	//System.out.println("counter +1: "+$n2.getCounter().getElements()[0]);
 end
 */
 
 rule "temperature"
 	when
-	n1 : CTDSIRSNotification( temperature > 38 || temperature < 36 )
+	$n1 : CTDSIRSNotification( temperature > 38 || temperature < 36 )
 	then
-	n1.setCounter(n1.getCounter()+1);
-	System.out.println(n1.getCounter()+", temperature");
+	$n1.setCounter($n1.getCounter()+1);
+	System.out.println($n1.getCounter()+", temperature");
+	update($n1);
 end
 
 rule "heartRate"
 	when
-	n1 : CTDSIRSNotification( heartRate > 90 )
+	$n1 : CTDSIRSNotification( heartRate > 90 )
 	then
-	n1.setCounter(n1.getCounter()+1);
-	System.out.println(n1.getCounter()+", heartRate");
+	$n1.setCounter($n1.getCounter()+1);
+	System.out.println($n1.getCounter()+", heartRate");
+	update($n1);
 end
 
 rule "respRateAndPaCo2"
 	when
-	n1 : CTDSIRSNotification( respRate > 20 || paCo2 < 32 )
+	$n1 : CTDSIRSNotification( respRate > 20 || paCo2 < 32 )
 	then
-	n1.setCounter(n1.getCounter()+1);
-	System.out.println(n1.getCounter()+", respRateAndPaCo2");
+	$n1.setCounter($n1.getCounter()+1);
+	System.out.println($n1.getCounter()+", respRateAndPaCo2");
+	update($n1);
 end
 
 
 rule "wbCellCountAndimmatureBand"
 	when
-	n1 : CTDSIRSNotification( wbCellCount > 12000 || wbCellCount < 4000 || immatureBand > 10 )
+	$n1 : CTDSIRSNotification( wbCellCount > 12000 || wbCellCount < 4000 || immatureBand > 10 )
 	then 
-	n1.setCounter(n1.getCounter()+1);
-	System.out.println(n1.getCounter()+", wbCellCountAndimmatureBand");
+	$n1.setCounter($n1.getCounter()+1);
+	System.out.println($n1.getCounter()+", wbCellCountAndimmatureBand");
+	update($n1);
 end	
 	
 rule "sirsNotification"
 	when
-	n1 : CTDSIRSNotification( counter >= 3 )
+	$n1 : CTDSIRSNotification( counter >= 3 )
 	then 
-	System.out.println("Alert for SIRS");
+	System.out.println("Alert for SIRS after "+$n1.getCounter()+" indications.");
 end
 
 rule "temperatureAbnormalArdenModelAM"
 	when
-	n3 : CTD_SIRS_NotificationAM( n3.getTemperature().value() >= 38 || n3.getTemperature().value() < 36 )
+	$n3 : CTD_SIRS_NotificationAM( $n3.getTemperature().value() >= 38 || $n3.getTemperature().value() < 36 )
 	then
-	n3.setCounter(n3.getCounter().add(1));
-	System.out.println(n3.getCounter()+", temperatureAbnormalAM");
+	$n3.setCounter($n3.getCounter().add(1));
+	System.out.println($n3.getCounter()+", temperatureAbnormalAM");
+	update($n3);
 end
 
 rule "heartRateAM"
 	when
-	n3 : CTD_SIRS_NotificationAM( n3.getHeartRate().value() > 90 )
+	$n3 : CTD_SIRS_NotificationAM( $n3.getHeartRate().value() > 90 )
 	then
-	n3.setCounter(n3.getCounter().add(1));
-	System.out.println(n3.getCounter()+", heartRateAM");
+	$n3.setCounter($n3.getCounter().add(1));
+	System.out.println($n3.getCounter()+", heartRateAM");
+	update($n3);
 end
 
 rule "respRateAndPaCo2AM"
 	when
-	n3 : CTD_SIRS_NotificationAM( n3.getRespRate().value() > 20 || n3.getPaCo2().value() < 32 )
+	$n3 : CTD_SIRS_NotificationAM( $n3.getRespRate().value() > 20 || $n3.getPaCo2().value() < 32 )
 	then
-	n3.setCounter(n3.getCounter().add(1));
-	System.out.println(n3.getCounter()+", respRateAndPaCo2AM");
+	$n3.setCounter($n3.getCounter().add(1));
+	System.out.println($n3.getCounter()+", respRateAndPaCo2AM");
+	update($n3);
 end
 
 
 rule "wbCellCountAndimmatureBandAM"
 	when
-	n3 : CTD_SIRS_NotificationAM( n3.getWbCellCount().value() > 12000 || n3.getWbCellCount.value() < 4000 || n3.getImmatureBand().value() > 10 )
+	$n3 : CTD_SIRS_NotificationAM( $n3.getWbCellCount().value() > 12000 || $n3.getWbCellCount.value() < 4000 || $n3.getImmatureBand().value() > 10 )
 	then 
-	n3.setCounter(n3.getCounter().add(1));
-	System.out.println(n3.getCounter()+", wbCellCountAndimmatureBandAM");
-end	
+	$n3.setCounter($n3.getCounter().add(1));
+	System.out.println($n3.getCounter()+", wbCellCountAndimmatureBandAM");
+	update($n3);
+end
 	
 rule "sirsNotificationAM"
 	when
-	n3 : CTD_SIRS_NotificationAM( n3.getCounter().value() >= 3 )
+	$n3 : CTD_SIRS_NotificationAM( counter.value() >= 3 )
 	then 
-	System.out.println("Alert for SIRS");
+	System.out.println("Alert for SIRS after "+$n3.getCounter()+" indications.");
 end
-
