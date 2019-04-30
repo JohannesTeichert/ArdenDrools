@@ -5,6 +5,8 @@ import at.fhj.cdss.CTDSIRSNotification;
 import at.fhj.cdss.CTD_SIRS_NotificationAM;
 import at.fhj.cdss.CTD_SIRS_NotificationA2B;
 
+import at.fhj.cdss.pneumonia.*;
+
 /*
 rule "temperatureAbnormalArde$n2Bytecode"
 	when
@@ -105,4 +107,89 @@ rule "sirsNotificationAM"
 	$n3 : CTD_SIRS_NotificationAM( counter.value() >= 3 )
 	then 
 	System.out.println("Alert for SIRS after "+$n3.getCounter()+" indications.");
+end
+
+
+
+
+//Pneumonia Test
+rule "pnLeucocytosis"
+	when
+	$lcf : LeucocytosisFact( wbcount.value() > 12000)
+	then
+	System.out.println("pnLeucocytosis: wbcount>12000");
+	$lcf.setResult(true);
+	update($lcf);
+end
+
+rule "pnLeukopenia"
+	when
+	$lpf : LeukopeniaFact( wbcount.value() < 4000)
+	then
+	System.out.println("pnLeukopenia: wbcount>4000");
+	$lpf.setResult(true);
+	update($lpf);
+end
+
+rule "pnFever"
+	when
+	$btf : BodyTemperatureFact( temperature.value() > 38)
+	then
+	System.out.println("pnFever: temperature>38");
+	$btf.setResult(true);
+	update($btf);
+end
+
+rule "pnRespSymp"
+	when
+	$rsf : RespiratorySymptomsFact( cough.isTrue() || dyspnea.isTrue() || tachypnea.isTrue() );
+	then
+	System.out.println("pnRespSymp: cough or dyspnea or tachypnea");
+	$rsf.setResult(true);
+	update($rsf);
+end
+
+rule "pnXRay"
+	when
+	$xrf : XRayFact( (chestXray1.isTrue() && chestXray2.isTrue()) );
+	then
+	$xrf.setResult(true);
+	System.out.println("XRayFact: true");
+	update($xrf);
+end
+
+rule "pnPBWimberley"
+	when
+	$pbw : PBWimberleyFact( colonyFormingUnits.value() >= Math.pow(10,3) );
+	then
+	$pbw.setResult(true);
+	System.out.println("PBWimberley, cfu/m3 exceed 10^3");
+	update($pbw);
+end
+
+rule "pnSymptoms"
+	when
+	$lcf : LeucocytosisFact();//ids should be checked here
+	$lpf : LeukopeniaFact();
+	$btf : BodyTemperatureFact();
+	$rsf : RespiratorySymptomsFact();
+	$smf : SymptomsFact( $lcf.getResult.isTrue() || $lpf.getResult().isTrue() || $btf.getResult().isTrue() || $rsf.getResult().isTrue());
+	then
+	System.out.println("pnSymptoms: lcf: "+$lcf.getResult().toString()+"; lpf: "+ $lpf.getResult()+"; btf: "+$btf.getResult()+"; rsf: "+$rsf.getResult());
+	$smf.setResult(true);
+	update($smf);
+	$smf.generateAction();
+	System.out.println($smf.getAction().toString());
+end
+	
+rule "Pneumonia"
+	when
+	$xrf : XRayFact();
+	$pbw : PBWimberleyFact();
+	$smf : SymptomsFact();
+	$pnf : PneumoniaFact( $xrf.getResult().isTrue() || $pbw.getResult().isTrue() || $smf.getResult().isTrue() );
+	then
+	$pnf.setResult(true);
+	update($pnf);
+	System.out.println("Pneuminia true");
 end
