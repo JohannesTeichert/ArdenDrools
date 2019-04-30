@@ -1,0 +1,34 @@
+maintenance:
+    title:          Pneumonia Respiratory Symptoms;; 
+    mlmname:        PneumoniaRespiratorySymptoms;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    FHJT;;
+    author:         Johannes Teichert;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: Decides whether respiratory symptoms indicate pneumonia;;
+   explanation: When one of the passed respiratory symptoms is true the mlm returns true;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+        (cough, dyspnea, tachypnea):= Argument;
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+     
+     conclude cough OR
+     dyspnea OR
+     tachypnea;
+   ;;
+	action: 
+        return TRUE;
+   ;;
+   urgency: ;;
+end:

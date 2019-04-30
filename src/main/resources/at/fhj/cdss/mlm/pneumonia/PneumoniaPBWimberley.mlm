@@ -1,0 +1,32 @@
+maintenance:
+    title:          Pneumonia indication based on PB Wimberley;; 
+    mlmname:        PneumoniaPBWimberley;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    FHJT;;
+    author:         Johannes Teichert;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: Decides whether pneumonia might exist based on protected brush method;;
+   explanation: Checks if the the amount of colony forming units exceeds 1000 per cubic millimeter;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+        (colonyFormingUnits):= Argument;
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+     
+     conclude colonyFormingUnits >= 10**3;
+   ;;
+	action:
+        return TRUE;
+   ;;
+   urgency: ;;
+end:

@@ -1,0 +1,31 @@
+maintenance:
+    title:          Leukopenia;; 
+    mlmname:        Leukopenia;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    FHJT;;
+    author:         Johannes Teichert;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: Decides whether white blood cell count indicates leukopenia;;
+   explanation: checks wheter white bloodcell count is below 4k per cubic millimeter;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+        (wb_count):= Argument;
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic:
+     conclude wb_count<4000;
+   ;;
+	action: 
+        return TRUE;
+   ;;
+   urgency: ;;
+end:

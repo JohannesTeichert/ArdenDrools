@@ -1,0 +1,44 @@
+maintenance:
+    title:          Pneumonia Decision;; 
+    mlmname:        Pneumonia;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    FHJT;;
+    author:         Johannes Teichert;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: Decides whether pneumonia is existent or not;;
+   explanation: Takes input data regarding diagnostic reports, underlying diseases, bacteriological diagnostics etc. and passes them to the according other mlms;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data:
+   		(chest_xray1, chest_xray2, cardiac_disease, pulmonary_disease, definitive_xray, 
+   		bodytemperature, wb_count, cough, dyspnea, tachypnea, colonyFormingUnits) := Argument;
+     	XRayModule := MLM 'Xray';
+     	include XRayModule;
+     	
+     	SymptomsModule := MLM 'PneumoniaSymptoms';
+     	include SymptomsModule;
+     	
+     	PBWimberleyModule := MLM 'PneumoniaPBWimberley';
+     	include PBWimberleyModule;
+     	
+     	xray := CALL XRayModule WITH chest_xray1, chest_xray2, cardiac_disease, pulmonary_disease, definitive_xray;
+     	symptoms := CALL SymptomsModule WITH bodytemperature, wb_count, cough, dyspnea, tachypnea;
+     	pbwimberley := CALL PBWimberleyModule WITH colonyFormingUnits;
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic:
+     conclude xray AND symptoms AND pbwimberley;
+   ;;
+	action: 
+        return TRUE;
+   ;;
+   urgency: ;;
+end:

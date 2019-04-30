@@ -1,0 +1,34 @@
+maintenance:
+    title:          Xray, CT reports;; 
+    mlmname:        Xray;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    FHJT;;
+    author:         Johannes Teichert;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: Decides whether the given Xray and CT reports in combination with underlying diseases indicate pneumonia;;
+   explanation: Passed data is checked to decide whether pneumonia is present and result is passed back to calling mlm;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data:
+	   (chest_xray1, chest_xray2, cardiac_disease, pulmonary_disease, definitive_xray):= Argument;
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic:
+	conclude (chest_xray1 AND chest_xray2) OR 
+	(cardiac_disease AND pulmonary_disease) OR 
+	definitive_xray AND NOT 
+	(cardiac_disease OR pulmonary_disease);
+   ;;
+	action: 
+        return TRUE;
+   ;;
+   urgency: ;;
+end:

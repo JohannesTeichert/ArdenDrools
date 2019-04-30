@@ -1,0 +1,32 @@
+maintenance:
+    title:          Fever;; 
+    mlmname:        Fever;;
+    arden:          version 2.9;;
+    version:        0.1;;	
+    institution:    FHJT;;
+    author:         Johannes Teichert;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: Determines if fever is present;;
+   explanation: Checks whether bodytemperature is above 38 degrees celsius which indicates fever;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+        (bodytemperature):= Argument;
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic: 
+     
+     conclude bodytemperature>38;
+   ;;
+	action: 
+        return TRUE;
+   ;;
+   urgency: ;;
+end:

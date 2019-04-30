@@ -1,0 +1,31 @@
+maintenance:
+    title:          Leucocytosis;; 
+    mlmname:        Leucocytosis;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    FHJT;;
+    author:         Johannes Teichert;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: Decides whether white blood cell count indicates leucocytosis;;
+   explanation: checks wheter white bloodcell count is over 12k per cubic millimeter;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data: 
+        (wb_count):= Argument;
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic:
+     conclude wb_count>=12000;
+   ;;
+	action: 
+        return TRUE;
+   ;;
+   urgency: ;;
+end:

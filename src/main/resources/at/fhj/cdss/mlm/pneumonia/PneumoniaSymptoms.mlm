@@ -1,0 +1,48 @@
+maintenance:
+    title:          Pnuemonia Symptoms;; 
+    mlmname:        PneumoniaSymptoms;;
+    arden:          version 2.9;;
+    version:        0.1;;
+    institution:    FHJT;;
+    author:         Johannes Teichert;;
+    specialist:     Medexter Healthcare;;
+    date:           2018-05-29;;
+    validation:     testing;;
+library:
+   purpose: Decides whether the existing symptoms indicate pneumonia;;
+   explanation: Bodytemperature and white bloodcell count are interpreted and passed to the according mlms to decide whether pneumonia exists;;
+   keywords: ;;
+   citations: ;;
+   links: ;;
+knowledge:
+   type: data_driven;;
+   data:
+   		(bodytemperature, wb_count, cough, dyspnea, tachypnea) := Argument;
+     	FeverModule := MLM 'Fever';
+     	include FeverModule;
+     	
+     	LeukopeniaModule := MLM 'Leukopenia';
+     	include LeukopeniaModule;
+     	
+     	LeucocytosisModule := MLM 'Leucocytosis';
+     	include LeucocytosisModule;
+     	
+     	RespiratorySymptomsModule := MLM 'PneumoniaRespiratorySymptoms';
+     	include RespiratorySymptomsModule;
+     	
+     	hasFever := CALL FeverModule WITH bodytemperature;
+     	hasLeukopenia := CALL LeukopeniaModule WITH wb_count;
+     	hasLeucocytosis := CALL LeucocytosisModule WITH wb_count;
+     	hasPneumoniaRespiratorySymptoms := CALL RespiratorySymptomsModule WITH cough, dyspnea, tachypnea;
+   ;;
+	priority: ;;
+	evoke: ;;
+	logic:
+	
+     conclude ( hasFever OR hasLeukopenia OR hasLeucocytosis ) AND hasPneumoniaRespiratorySymptoms;
+   ;;
+	action: 
+        return TRUE;
+   ;;
+   urgency: ;;
+end:
