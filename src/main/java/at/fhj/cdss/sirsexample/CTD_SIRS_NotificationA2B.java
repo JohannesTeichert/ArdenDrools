@@ -1,4 +1,4 @@
-package at.fhj.cdss;
+package at.fhj.cdss.sirsexample;
 
 import arden.runtime.*;
 

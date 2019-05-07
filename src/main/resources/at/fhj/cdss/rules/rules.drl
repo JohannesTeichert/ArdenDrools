@@ -1,12 +1,14 @@
 package at.fhj.cdss.rules
 
 import arden.runtime.*;
-import at.fhj.cdss.CTDSIRSNotification;
-import at.fhj.cdss.CTD_SIRS_NotificationAM;
-import at.fhj.cdss.CTD_SIRS_NotificationA2B;
+import at.fhj.cdss.sirsexample.CTDSIRSNotification;
+import at.fhj.cdss.sirsexample.CTD_SIRS_NotificationAM;
+import at.fhj.cdss.sirsexample.CTD_SIRS_NotificationA2B;
 
 import at.fhj.cdss.pneumonia.*;
 
+
+global String sessionid;
 /*
 rule "temperatureAbnormalArde$n2Bytecode"
 	when
@@ -187,7 +189,7 @@ rule "Pneumonia"
 	$xrf : XRayFact();
 	$pbw : PBWimberleyFact();
 	$smf : SymptomsFact();
-	$pnf : PneumoniaFact( $xrf.getResult().isTrue() || $pbw.getResult().isTrue() || $smf.getResult().isTrue() );
+	$pnf : PneumoniaFact( id==sessionid, $xrf.getResult().isTrue() || $pbw.getResult().isTrue() || $smf.getResult().isTrue() );
 	then
 	$pnf.setResult(true);
 	update($pnf);

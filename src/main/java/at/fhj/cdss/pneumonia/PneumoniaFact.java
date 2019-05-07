@@ -15,6 +15,14 @@ public class PneumoniaFact extends ArdenModule {
 		this.pbw = pbw;
 	}
 
+	//constructor with ID
+	public PneumoniaFact(String id, XRayFact xrf, SymptomsFact smf, PBWimberleyFact pbw) {
+		this.id = id;
+		this.xrf = xrf;
+		this.smf = smf;
+		this.pbw = pbw;
+	}
+	
 	public XRayFact getXrf() {
 		return xrf;
 	}
